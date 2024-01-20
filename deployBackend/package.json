@@ -1,19 +1,19 @@
 {
-  "name": "backend-deploy",
+  "name": "deploybackend",
   "version": "1.0.0",
-  "description": "Dummy code for deployment",
+  "description": "backend tutorial",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "keywords": [
     "backend",
-    "deploy"
+    "tutorial"
   ],
-  "author": "Lokesh Ghosh",
+  "author": "lokesh ghosh",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.3.2",
     "express": "^4.18.2"
   }
 }

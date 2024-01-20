@@ -1,9 +1,9 @@
-// console.log('This is dummy code');
+const express = require('express')
 require('dotenv').config();
-const express = require('express');
-const app = express();
-const port = 3000
-const data = {
+const app = express()
+const port = process.env.PORT || 3000
+
+const gitData = {
     "login": "ilokeshghosh",
     "id": 102693885,
     "node_id": "U_kgDOBh77_Q",
@@ -24,50 +24,32 @@ const data = {
     "site_admin": false,
     "name": "Lokesh Ghosh",
     "company": null,
-    "blog": "https://lokeshghosh.tech/",
+    "blog": "lokeshghosh.vercel.app/",
     "location": "Kolkata, India",
     "email": null,
     "hireable": null,
     "bio": null,
     "twitter_username": "i_lokeshghosh",
-    "public_repos": 36,
+    "public_repos": 42,
     "public_gists": 0,
-    "followers": 6,
+    "followers": 4,
     "following": 5,
     "created_at": "2022-03-30T19:06:55Z",
-    "updated_at": "2023-10-17T06:35:09Z"
-};
-
+    "updated_at": "2024-01-20T05:37:36Z"
+  }
 
 app.get('/', (req, res) => {
-    res.send('Hello World')
-    
+  res.send('Hello World!')
 })
 
-app.get('/about', (req, res) => {
-    res.json({
-        'name': 'lokesh ghosh',
-        'city': "Kolkata",
-        'age': 20
-    })
-
-    // res.send('<h1>This is about us page<h1/>');
+app.get('/github',(req,res)=>{
+    res.json(gitData)
 })
 
-
-app.get('/github', (req, res) => {
-    res.json(data)
+app.get('/login',(req,res)=>{
+    res.send('<h1>please login at chai or code</h1>')
 })
 
-
-app.get('/login', (req, res) => {
-    res.send('<h1>Please login<h1/>')
-})
-
-app.get('/chai', (req, res) => {
-    res.send('you got chai')
-})
-app.listen(process.env.PORT, () => {
-    console.log(`Example app listening on port ${process.env.PORT}`);
-    console.log(`Open : http://localhost:${process.env.PORT}/`);
+app.listen(port, () => {
+  console.log(`Example app listening on port : http://localhost:${port}`)
 })
