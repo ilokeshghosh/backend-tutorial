@@ -19,5 +19,3 @@ export { asyncHandler }
 //     }
 // }
 
-// ! to read
-// ! all packages,error class in node js(specially error.data)
