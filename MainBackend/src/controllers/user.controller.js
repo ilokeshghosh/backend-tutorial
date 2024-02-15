@@ -11,8 +11,6 @@ const generateAccessAndRefreshTokens = async (id) => {
         const user = await User.findById(id)
         const accessToken = user.generateAccessToken()
         const refreshToken = user.generateRefreshToken()
-        console.log('accesstoken', accessToken)
-        console.log('refreshToken', refreshToken)
 
         user.refreshToken = refreshToken
 
@@ -241,7 +239,7 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 const updateAccountDetails = asyncHandler(async (req, res) => {
     const { fullName, email } = req.body
 
-    if (fullName, email) {
+    if (!(fullName && email)) {
         throw new ApiError(400, "All fields are required")
     }
 
@@ -313,7 +311,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
     const channel = await User.aggregate([
         {
             $match: {
-                username: username?.toLowerCase()
+                userName: username?.toLowerCase()
             }
         },
         // find my subscriber
@@ -355,7 +353,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
         {
             $project: {
                 fullName: 1,
-                username: 1,
+                userName: 1,
                 subscribersCount: 1,
                 channelsSubscribedToCount: 1,
                 isSubscribed: 1,
@@ -366,7 +364,6 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
         }
     ])
 
-    console.log('aggregated value', channel)
 
     if (!channel?.length) {
         throw new ApiError(404, 'Channel does not exists')
