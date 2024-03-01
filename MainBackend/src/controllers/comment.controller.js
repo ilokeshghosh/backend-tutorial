@@ -4,11 +4,28 @@ import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 
+
 const getVideoComments = asyncHandler(async (req, res) => {
     //TODO: get all comments for a video
     const { videoId } = req.params
     const { page = 1, limit = 10 } = req.query
 
+    // Comment.aggregatePaginate()
+    const options = {
+        page: parseInt(page, 10),
+        limit: parseInt(limit, 10)
+    }
+    // const findCommentByVideoId = await Comment.find({video:videoId});
+    const findCommentByVideoId = await Comment.aggregatePaginate({ video: videoId }, options);
+    if (!findCommentByVideoId) {
+        throw new ApiError(404, 'Comment not Found')
+    }
+
+    if (findCommentByVideoId.docs.length === 0 && findCommentByVideoId.page > 1) {
+        throw new ApiError(404, 'Page not Found')
+    }
+
+    return res.status(200).json(new ApiResponse(200, findCommentByVideoId, 'Comments Found'));
 })
 
 const addComment = asyncHandler(async (req, res) => {

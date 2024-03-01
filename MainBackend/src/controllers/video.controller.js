@@ -6,10 +6,29 @@ import { ApiResponse } from "../utils/ApiResponse.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary.js"
 
+// ! from chat gpt
 const getAllVideos = asyncHandler(async (req, res) => {
     const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query
     //TODO: get all videos based on query, sort, pagination
-    return res.status(200).json(new ApiResponse(200, { check: 'gogo' }, 'Everything is fine'));
+
+    const options = {
+        page: parseInt(page, 10),
+        limit: parseInt(limit, 10),
+        sort: { [sortBy]: sortType }
+    };
+
+    const queryConditions = userId ? { owner: userId } : {};
+
+    if (query) {
+        queryConditions['title'] = { $regex: query, $options: 'i' };
+    }
+    const getAllVideos = await Video.aggregatePaginate(queryConditions, options)
+
+    if (getAllVideos.docs.length === 0 && getAllVideos.page > 1) {
+        throw new ApiError(404, "Videos Not Found")
+    }
+
+    return res.status(200).json(new ApiResponse(200, getAllVideos, 'Everything is fine'));
 })
 
 const publishAVideo = asyncHandler(async (req, res) => {

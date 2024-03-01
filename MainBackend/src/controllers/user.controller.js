@@ -23,7 +23,6 @@ const generateAccessAndRefreshTokens = async (id) => {
 }
 
 const registerUser = asyncHandler(async (req, res) => {
-    // ! steps to register user
 
     //      1.take user credentials from user by using post method in this route : 'http://localhost:8000/api/v1/users/register'
     //      2. validation - not empty
